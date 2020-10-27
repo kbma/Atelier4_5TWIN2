@@ -14,7 +14,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $PerPage= 5;
+        $all= Category::orderBy('Created_at','desc')->paginate($PerPage);
+
+        return view('category.index',['all'=>$all]);
     }
 
     /**
@@ -24,7 +27,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('category.create');
     }
 
     /**
@@ -35,7 +38,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $c= new Category();
+        $c->name=$request->name;
+        $c->save();
+        return redirect('category')->with('message','La categorie est ajoutée avec succés');
     }
 
     /**
