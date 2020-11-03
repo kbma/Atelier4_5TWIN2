@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RequestCategory;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -36,8 +37,14 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RequestCategory $request)
     {
+
+       /* $request->validate([
+            'name'=>'required|unique:categories|max:20|min:2'
+        ]);
+        */
+
         $c= new Category();
         $c->name=$request->name;
         $c->save();
@@ -86,6 +93,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $c= Category::find($category->id);
+        $c->delete();
+        return redirect('category')->with('message','La categorie est supprimée avec succés');
     }
 }
